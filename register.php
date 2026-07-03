@@ -23,8 +23,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     jsonResponse(['success' => false, 'message' => 'E-mail inválido.']);
 }
 
-if (strlen($password) < 6) {
-    jsonResponse(['success' => false, 'message' => 'A palavra-passe deve ter pelo menos 6 caracteres.']);
+if (strlen($password) < 8) {
+    jsonResponse(['success' => false, 'message' => 'A palavra-passe deve ter pelo menos 8 caracteres.']);
 }
 
 $pdo = getDB();

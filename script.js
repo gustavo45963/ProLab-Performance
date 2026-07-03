@@ -144,11 +144,14 @@
     idade: $("#idade"),
     pesoPerfil: $("#pesoPerfil"),
     alturaPerfil: $("#alturaPerfil"),
+    genero: $("#genero"),
+    bf: $("#bf"),
 
     statIMC: $("#statIMC"),
     statIMCText: $("#statIMCText"),
     statObjetivo: $("#statObjetivo"),
     statNivel: $("#statNivel"),
+    statBF: $("#statBF"),
 
     // Hero for parallax
     hero: $(".hero"),
@@ -1027,6 +1030,8 @@
     if (dom.idade) dom.idade.value = p.idade ?? "";
     if (dom.pesoPerfil) dom.pesoPerfil.value = p.peso ?? "";
     if (dom.alturaPerfil) dom.alturaPerfil.value = p.altura ?? "";
+    if (dom.genero) dom.genero.value = p.genero ?? "";
+    if (dom.bf) dom.bf.value = p.bf ?? "";
   }
 
   function prefillIMCInputsFromProfile({ onlyIfEmpty = true } = {}) {
@@ -1053,6 +1058,7 @@
 
     const lvl = getLevel();
     dom.statNivel && (dom.statNivel.textContent = LEVEL_LABEL[lvl] || "—");
+    dom.statBF && (dom.statBF.textContent = p.bf ? p.bf : "—");
   }
 
   dom.profileForm?.addEventListener("submit", (e) => {
@@ -1063,6 +1069,8 @@
       idade: String(dom.idade?.value || "").trim(),
       peso: String(dom.pesoPerfil?.value || "").trim(),
       altura: String(dom.alturaPerfil?.value || "").trim(),
+      genero: String(dom.genero?.value || "").trim(),
+      bf: String(dom.bf?.value || "").trim(),
     };
 
     // Light validation (do not block name-only profiles)
@@ -1238,12 +1246,20 @@ function clonarLinhaEspecifica(linhaBase) {
       const res = await fetch("treino.php");
       const data = await res.json();
       if (data.success && data.sessoes.length > 0) {
-        domTreinos.containerHistorico.innerHTML = data.sessoes.map(sessao => `
+        domTreinos.containerHistorico.innerHTML = data.sessoes.map(sessao => {
+          const div = document.createElement("div");
+          div.textContent = sessao.tipo_treino;
+          const escapedTipoTreino = div.innerHTML;
+          return `
           <article class="tool-card">
-            <div style="display:flex; justify-content:space-between; margin-bottom: 12px;"><h3 class="h3">${sessao.tipo_treino}</h3><span class="muted">${sessao.data_sessao}</span></div>
-            <ul class="plan-list">${sessao.series.map(s => `<li><strong>${s.exercicio_nome}:</strong> ${s.carga_kg}kg x ${s.repeticoes} reps</li>`).join("")}</ul>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 12px;"><h3 class="h3">${escapedTipoTreino}</h3><span class="muted">${sessao.data_sessao}</span></div>
+            <ul class="plan-list">${sessao.series.map(s => {
+              const li = document.createElement("div");
+              li.textContent = s.exercicio_nome;
+              return `<li><strong>${li.innerHTML}:</strong> ${s.carga_kg}kg x ${s.repeticoes} reps</li>`
+            }).join("")}</ul>
           </article>
-        `).join("");
+        `}).join("");
       } else { domTreinos.containerHistorico.innerHTML = `<p class="muted">Ainda não há treinos registados.</p>`; }
     } catch (err) { domTreinos.containerHistorico.innerHTML = `<p class="result is-error">Erro ao carregar histórico.</p>`; }
   }

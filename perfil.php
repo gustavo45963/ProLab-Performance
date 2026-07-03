@@ -15,7 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             p.peso_kg,
             p.altura_m,
             p.objetivo,
-            p.nivel
+            p.nivel,
+            p.genero,
+            p.bf
         FROM perfis p
         INNER JOIN utilizadores u ON u.id = p.utilizador_id
         WHERE p.utilizador_id = ?
@@ -40,6 +42,8 @@ $pesoKg = isset($body['peso_kg']) && $body['peso_kg'] !== '' ? (float) $body['pe
 $alturaM = isset($body['altura_m']) && $body['altura_m'] !== '' ? (float) $body['altura_m'] : null;
 $objetivo = isset($body['objetivo']) && $body['objetivo'] !== '' ? (string) $body['objetivo'] : null;
 $nivel = isset($body['nivel']) && $body['nivel'] !== '' ? (string) $body['nivel'] : 'iniciante';
+$genero = isset($body['genero']) && $body['genero'] !== '' ? (string) $body['genero'] : null;
+$bf = isset($body['bf']) && $body['bf'] !== '' ? (float) $body['bf'] : null;
 
 $objetivosValidos = ['hipertrofia', 'emagrecimento', 'resistencia', 'forca'];
 $niveisValidos = ['iniciante', 'intermedio', 'avancado'];
@@ -65,17 +69,19 @@ if (!in_array($nivel, $niveisValidos, true)) {
 }
 
 $stmt = $pdo->prepare('
-    INSERT INTO perfis (utilizador_id, idade, peso_kg, altura_m, objetivo, nivel)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO perfis (utilizador_id, idade, peso_kg, altura_m, objetivo, nivel, genero, bf)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE
         idade = VALUES(idade),
         peso_kg = VALUES(peso_kg),
         altura_m = VALUES(altura_m),
         objetivo = VALUES(objetivo),
-        nivel = VALUES(nivel)
+        nivel = VALUES(nivel),
+        genero = VALUES(genero),
+        bf = VALUES(bf)
 ');
 
-$stmt->execute([$userId, $idade, $pesoKg, $alturaM, $objetivo, $nivel]);
+$stmt->execute([$userId, $idade, $pesoKg, $alturaM, $objetivo, $nivel, $genero, $bf]);
 
 if ($pesoKg !== null) {
     $imc = null;

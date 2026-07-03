@@ -583,6 +583,20 @@
     <input id="alturaPerfil" name="altura" type="text" placeholder="Ex: 1,75" />
   </div>
 
+  <div class="field">
+    <label for="genero">Género</label>
+    <select id="genero" name="genero">
+      <option value="">Selecione...</option>
+      <option value="M">Masculino</option>
+      <option value="F">Feminino</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="bf">BF (%)</label>
+    <input id="bf" name="bf" type="text" placeholder="Ex: 15" />
+  </div>
+
   <button class="btn btn-primary btn-full" type="submit" data-ripple>Guardar perfil</button>
   <p class="muted" id="profileMsg" role="status" aria-live="polite"></p>
 </form>
@@ -627,6 +641,12 @@
               <p class="stat-label">Nível do plano</p>
               <p class="stat-value" id="statNivel">—</p>
               <p class="muted">Definido na aba Planos</p>
+            </div>
+
+            <div class="stat-card">
+              <p class="stat-label">BF (%)</p>
+              <p class="stat-value" id="statBF">—</p>
+              <p class="muted">Definido no Perfil</p>
             </div>
           </div>
         </div>

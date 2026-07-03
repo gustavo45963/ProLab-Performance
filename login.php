@@ -25,8 +25,12 @@ $stmt->execute([$email]);
 
 $user = $stmt->fetch();
 
-if (!$user || !password_verify($password, $user['password_hash'])) {
-    jsonResponse(['success' => false, 'message' => 'E-mail ou palavra-passe incorretos.']);
+if (!$user) {
+    jsonResponse(['success' => false, 'message' => 'E-mail não registado.']);
+}
+
+if (!password_verify($password, $user['password_hash'])) {
+    jsonResponse(['success' => false, 'message' => 'Palavra-passe incorreta.']);
 }
 
 session_regenerate_id(true);
