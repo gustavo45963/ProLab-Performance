@@ -231,7 +231,7 @@
      - arrows + Home/End
      - state persisted + deep-link via hash
   ------------------------------ */
-  const TAB_ORDER = ["home", "planos", "ferramentas", "perfil"];
+  const TAB_ORDER = ["home", "treinos", "planos", "ferramentas", "perfil"];
   const tabByName = (name) => dom.tabButtons.find((b) => b.dataset.tab === name);
   const panelByName = (name) => dom.tabPanels.find((p) => p.dataset.tabpanel === name);
 
@@ -1117,4 +1117,144 @@
   observeRevealsInActivePanel();
   initSectionNavObserver();
   updateProfileStats();
-})();
+
+  /* -----------------------------
+     Módulo de Treinos (API Integration)
+  ------------------------------ */
+  const domTreinos = {
+    form: $("#formNovoTreino"),
+    dataInput: $("#dataSessao"),
+    listaSeries: $("#listaSeries"),
+    btnAddSerie: $("#btnAdicionarSerie"),
+    containerHistorico: $("#containerHistorico")
+  };
+
+  let catalogoExercicios = []; // Começa vazio, vai ser preenchido pela base de dados
+
+  async function buscarExerciciosDaBD() {
+    try {
+      const res = await fetch("exercicios.php");
+      const data = await res.json();
+      if (data.success) {
+        catalogoExercicios = data.exercicios;
+      }
+    } catch (err) {
+      console.error("Erro ao carregar exercícios da BD:", err);
+    }
+  }
+
+  if (domTreinos.dataInput) {
+    domTreinos.dataInput.value = new Date().toISOString().split('T')[0];
+  }
+
+function adicionarLinhaSerie() {
+    if (!domTreinos.listaSeries) return;
+
+    const div = document.createElement("div");
+    // Ajustei o grid para acomodar 2 botões (Remover + Clonar)
+    div.style.cssText = "display: grid; grid-template-columns: 2fr 1fr 1fr auto auto; gap: 8px; align-items: end; margin-bottom: 8px;";
+
+    const options = catalogoExercicios.map(ex => `<option value="${ex.id}">${ex.nome}</option>`).join("");
+
+    div.innerHTML = `
+      <div class="field">
+        <select class="exercicio-select" style="width:100%; padding:13px; border-radius:var(--r-sm); background:rgba(0,0,0,.3); color:var(--paper); border:1px solid var(--line-2);">
+          <option value="">Selecione...</option>
+          ${options}
+        </select>
+      </div>
+      <div class="field">
+        <input type="number" class="carga-input" placeholder="Kg" min="0" step="0.5" />
+      </div>
+      <div class="field">
+        <input type="number" class="reps-input" placeholder="Reps" min="1" />
+      </div>
+      <button type="button" class="btn btn-ghost btn-clonar-serie" style="padding: 13px;" title="Clonar série">📑</button>
+      <button type="button" class="btn btn-ghost btn-remover-serie" style="padding: 13px;" title="Remover">X</button>
+    `;
+
+    // Lógica para Remover
+    div.querySelector(".btn-remover-serie").addEventListener("click", () => div.remove());
+
+    // Lógica para Clonar
+    div.querySelector(".btn-clonar-serie").addEventListener("click", () => {
+        const novaLinha = div.cloneNode(true); // Clona a linha inteira
+
+        // Copia os valores atuais dos inputs para a nova linha
+        novaLinha.querySelector('.exercicio-select').value = div.querySelector('.exercicio-select').value;
+        novaLinha.querySelector('.carga-input').value = div.querySelector('.carga-input').value;
+        novaLinha.querySelector('.reps-input').value = div.querySelector('.reps-input').value;
+
+        // Re-liga os eventos (Remover e Clonar) na nova linha clonada
+        novaLinha.querySelector(".btn-remover-serie").addEventListener("click", () => novaLinha.remove());
+        novaLinha.querySelector(".btn-clonar-serie").addEventListener("click", () => clonarLinhaEspecifica(novaLinha));
+
+        domTreinos.listaSeries.appendChild(novaLinha);
+    });
+
+    domTreinos.listaSeries.appendChild(div);
+}
+
+// Helper para evitar repetição de código no clique do clone
+function clonarLinhaEspecifica(linhaBase) {
+    const novaLinha = linhaBase.cloneNode(true);
+    novaLinha.querySelector('.exercicio-select').value = linhaBase.querySelector('.exercicio-select').value;
+    novaLinha.querySelector('.carga-input').value = linhaBase.querySelector('.carga-input').value;
+    novaLinha.querySelector('.reps-input').value = linhaBase.querySelector('.reps-input').value;
+    novaLinha.querySelector(".btn-remover-serie").addEventListener("click", () => novaLinha.remove());
+    novaLinha.querySelector(".btn-clonar-serie").addEventListener("click", () => clonarLinhaEspecifica(novaLinha));
+    domTreinos.listaSeries.appendChild(novaLinha);
+}
+
+  domTreinos.btnAddSerie?.addEventListener("click", adicionarLinhaSerie);
+
+  domTreinos.form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const series = [];
+    $$(".exercicio-select", domTreinos.listaSeries).forEach((select, index) => {
+      const cargaInput = $$(".carga-input", domTreinos.listaSeries)[index];
+      const repsInput = $$(".reps-input", domTreinos.listaSeries)[index];
+      if (select.value && repsInput.value) {
+        series.push({ exercicio_id: parseInt(select.value), carga_kg: parseFloat(cargaInput.value) || 0, repeticoes: parseInt(repsInput.value) });
+      }
+    });
+
+    if (series.length === 0) { showToast("Adicione pelo menos um exercício válido.", "error"); return; }
+
+    const payload = { data_sessao: $("#dataSessao").value, tipo_treino: $("#tipoTreino").value, duracao_minutos: $("#duracaoTreino").value, series: series };
+    try {
+      const res = await fetch("treino.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.success) {
+        showToast(data.message, "info");
+        domTreinos.listaSeries.innerHTML = "";
+      } else { showToast(data.message || "Erro ao guardar.", "error"); }
+    } catch (err) { showToast("Erro de comunicação.", "error"); }
+  });
+
+  async function carregarHistorico() {
+    if (!domTreinos.containerHistorico) return;
+    try {
+      const res = await fetch("treino.php");
+      const data = await res.json();
+      if (data.success && data.sessoes.length > 0) {
+        domTreinos.containerHistorico.innerHTML = data.sessoes.map(sessao => `
+          <article class="tool-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 12px;"><h3 class="h3">${sessao.tipo_treino}</h3><span class="muted">${sessao.data_sessao}</span></div>
+            <ul class="plan-list">${sessao.series.map(s => `<li><strong>${s.exercicio_nome}:</strong> ${s.carga_kg}kg x ${s.repeticoes} reps</li>`).join("")}</ul>
+          </article>
+        `).join("");
+      } else { domTreinos.containerHistorico.innerHTML = `<p class="muted">Ainda não há treinos registados.</p>`; }
+    } catch (err) { domTreinos.containerHistorico.innerHTML = `<p class="result is-error">Erro ao carregar histórico.</p>`; }
+  }
+
+// Função que inicia o módulo de treinos pela ordem correta
+  async function initTreinos() {
+    await buscarExerciciosDaBD(); // 1º Espera que os exercícios carreguem da BD
+    adicionarLinhaSerie();        // 2º Cria a primeira linha já com as opções certas
+    carregarHistorico();          // 3º Carrega o histórico
+  }
+
+  initTreinos();
+
+})(); // <-- o teu ficheiro termina aqui

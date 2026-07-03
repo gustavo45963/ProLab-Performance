@@ -1231,3 +1231,8 @@ body.logged-out p.guest-only{ display: block; }
 body.logged-out .hero-subtitle::after{
   content: " Cria uma conta ou faz login para acessar planos, ferramentas, perfil e acompanhamento físico.";
 }
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+}

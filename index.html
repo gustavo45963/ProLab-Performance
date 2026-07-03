@@ -44,72 +44,20 @@
           <span class="nav-toggle-lines" aria-hidden="true"></span>
         </button>
 
-        <div id="navMenu" class="nav-menu">
-<!-- ARIA Tabs -->
-<div class="tabs" role="tablist" aria-label="Abas do site">
-  <button
-    class="tab-btn"
-    role="tab"
-    id="tab-home"
-    aria-controls="panel-home"
-    aria-selected="true"
-    tabindex="0"
-    data-tab="home"
-    data-ripple
-  >
-    Home
-  </button>
+<div id="navMenu" class="nav-menu">
+  <div class="tabs" role="tablist" aria-label="Abas do site">
+    <button class="tab-btn" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" tabindex="0" data-tab="home" data-ripple>Home</button>
+    <button class="tab-btn auth-only" role="tab" id="tab-treinos" aria-controls="panel-treinos" aria-selected="false" tabindex="-1" data-tab="treinos" data-ripple>Treinos</button>
+    <button class="tab-btn auth-only" role="tab" id="tab-planos" aria-controls="panel-planos" aria-selected="false" tabindex="-1" data-tab="planos" data-ripple>Planos</button>
+    <button class="tab-btn auth-only" role="tab" id="tab-ferramentas" aria-controls="panel-ferramentas" aria-selected="false" tabindex="-1" data-tab="ferramentas" data-ripple>Ferramentas</button>
+    <button class="tab-btn auth-only" role="tab" id="tab-perfil" aria-controls="panel-perfil" aria-selected="false" tabindex="-1" data-tab="perfil" data-ripple>Perfil</button>
+  </div>
 
-  <button
-    class="tab-btn"
-    role="tab"
-    id="tab-planos"
-    aria-controls="panel-planos"
-    aria-selected="false"
-    tabindex="-1"
-    data-tab="planos"
-    data-ripple
-  >
-    Planos
-  </button>
-
-  <button
-    class="tab-btn"
-    role="tab"
-    id="tab-ferramentas"
-    aria-controls="panel-ferramentas"
-    aria-selected="false"
-    tabindex="-1"
-    data-tab="ferramentas"
-    data-ripple
-  >
-    Ferramentas
-  </button>
-
-  <button
-    class="tab-btn"
-    role="tab"
-    id="tab-perfil"
-    aria-controls="panel-perfil"
-    aria-selected="false"
-    tabindex="-1"
-    data-tab="perfil"
-    data-ripple
-  >
-    Perfil
-  </button>
-
-  <button class="tab-btn" type="button" id="openLogin" data-ripple>
-    Login
-  </button>
-
-  <button class="tab-btn" type="button" id="openRegister" data-ripple>
-    Registo
-  </button>
-
-  <button class="tab-btn" type="button" id="logoutButton" hidden data-ripple>
-    Sair
-  </button>
+  <div class="auth-buttons" style="display: flex; gap: 8px; margin-left: 8px;">
+    <button class="tab-btn" type="button" id="openLogin" data-ripple>Login</button>
+    <button class="tab-btn" type="button" id="openRegister" data-ripple>Registo</button>
+    <button class="tab-btn" type="button" id="logoutButton" hidden data-ripple>Sair</button>
+  </div>
 </div>
       </nav>
     </div>
@@ -280,6 +228,45 @@
               <span class="objective-desc">Cargas altas, técnica e descanso.</span>
             </button>
           </div>
+        </div>
+      </section>
+    </section>
+
+    <section
+      id="panel-treinos"
+      class="tabpanel"
+      role="tabpanel"
+      aria-labelledby="tab-treinos"
+      data-tabpanel="treinos"
+      hidden
+    >
+      <nav class="panel-nav container" aria-label="Atalhos da aba Treinos" data-reveal data-delay="0">
+        <a class="panel-link" href="#treinos-novo" data-subnav-link>Registar Treino</a>
+        <a class="panel-link" href="#treinos-historico" data-subnav-link>Histórico</a>
+      </nav>
+
+      <section class="section" id="treinos-novo" data-section>
+        <div class="container">
+          <header class="section-header"><h2>Registar Sessão</h2></header>
+          <article class="tool-card">
+            <form id="formNovoTreino" class="form" novalidate>
+              <div class="tools-grid">
+                <div class="field"><label>Data</label><input id="dataSessao" name="dataSessao" type="date" required /></div>
+                <div class="field"><label>Tipo</label><input id="tipoTreino" name="tipoTreino" type="text" placeholder="Ex: Peito e Tríceps" required /></div>
+                <div class="field"><label>Duração (min)</label><input id="duracaoTreino" name="duracaoTreino" type="number" placeholder="Ex: 60" /></div>
+              </div>
+              <div id="listaSeries" style="display: grid; gap: 14px; margin-top: 20px;"></div>
+              <button type="button" id="btnAdicionarSerie" class="btn btn-ghost" style="margin-top: 10px;">+ Adicionar Exercício</button>
+              <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Guardar Treino</button>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="treinos-historico" data-section>
+        <div class="container">
+          <header class="section-header"><h2>O teu Histórico</h2></header>
+          <div id="containerHistorico" style="display: grid; gap: 16px; margin-top: 24px;"><p class="muted">A carregar histórico...</p></div>
         </div>
       </section>
     </section>
@@ -575,31 +562,31 @@
 
           <div class="tools-grid">
             <article class="tool-card" data-reveal data-delay="80">
-              <form id="profileForm" class="form" novalidate>
-                <div class="field">
-                  <label for="nome">Nome</label>
-                  <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Ex.: João" />
-                </div>
+<form id="profileForm" class="form" novalidate>
+  <div class="field">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" type="text" placeholder="Teu nome" />
+  </div>
 
-                <div class="field">
-                  <label for="idade">Idade</label>
-                  <input id="idade" name="idade" type="number" inputmode="numeric" min="1" max="120" placeholder="Ex.: 17" />
-                </div>
+  <div class="field">
+    <label for="idade">Idade</label>
+    <input id="idade" name="idade" type="number" placeholder="Ex: 25" />
+  </div>
 
-                <div class="field">
-                  <label for="pesoPerfil">Peso (kg)</label>
-                  <input id="pesoPerfil" name="pesoPerfil" type="text" inputmode="decimal" placeholder="Ex.: 72,5" />
-                </div>
+  <div class="field">
+    <label for="pesoPerfil">Peso (kg)</label>
+    <input id="pesoPerfil" name="peso" type="text" placeholder="Ex: 75,5" />
+  </div>
 
-                <div class="field">
-                  <label for="alturaPerfil">Altura (m)</label>
-                  <input id="alturaPerfil" name="alturaPerfil" type="text" inputmode="decimal" placeholder="Ex.: 1,75" />
-                </div>
+  <div class="field">
+    <label for="alturaPerfil">Altura (m)</label>
+    <input id="alturaPerfil" name="altura" type="text" placeholder="Ex: 1,75" />
+  </div>
 
-                <button class="btn btn-primary btn-full" type="submit" data-ripple>Guardar perfil</button>
-                <p class="muted" id="profileMsg" role="status" aria-live="polite"></p>
-              </form>
-            </article>
+  <button class="btn btn-primary btn-full" type="submit" data-ripple>Guardar perfil</button>
+  <p class="muted" id="profileMsg" role="status" aria-live="polite"></p>
+</form>
+</article>
 
             <article class="tool-card" data-reveal data-delay="140">
               <h3>Atalhos</h3>

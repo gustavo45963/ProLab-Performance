@@ -312,12 +312,8 @@ function setAuthButtons() {
 
       alert("Sessão terminada.");
 
-      // Mock: recarrega a página atual (pode ser index.html/file://).
-      if (wasMock) {
-        window.location.reload();
-      } else {
-        window.location.href = "index.php#home";
-      }
+      // REDIRECIONAMENTO PARA A HOME:
+      window.location.href = "index.html";
     });
 
     $("#profileForm")?.addEventListener("submit", () => {
