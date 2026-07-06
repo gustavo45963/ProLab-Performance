@@ -1,0 +1,9 @@
+# Dados locais (SQLite de desenvolvimento)
+/data/
+
+# Ambiente local
+.env
+
+# Sistema
+.DS_Store
+Thumbs.db

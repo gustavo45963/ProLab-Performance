@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0A0B0D" />
+  <meta name="description" content="ProLab Performance — planos de treino, ferramentas e acompanhamento de performance." />
+  <title>ProLab Performance</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23CBFB45'/%3E%3Cstop offset='1' stop-color='%239FD42E'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 20V13M9.5 20V8M15 20v-9M20.5 20V4' stroke='url(%23g)' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="logged-out">
+  <a class="skip-link" href="#main">Saltar para o conteúdo</a>
+
+  <!-- Fundo: aurora + grelha + grão -->
+  <div class="backdrop" aria-hidden="true">
+    <div class="aurora aurora-a"></div>
+    <div class="aurora aurora-b"></div>
+    <div class="aurora aurora-c"></div>
+    <div class="backdrop-grid"></div>
+    <div class="backdrop-grain"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="ProLab Performance">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 20V13M9.5 20V8M15 20v-9M20.5 20V4" stroke="url(#brandGradient)" stroke-width="2.6" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="brandGradient" x1="4" y1="20" x2="20.5" y2="4" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#CBFB45"/>
+                <stop offset="1" stop-color="#9FD42E"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand-text">ProLab <span>Performance</span></span>
+      </a>
+
+      <nav class="primary-nav" aria-label="Navegação principal">
+        <button id="navToggle" class="nav-toggle" type="button" aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menu">
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
+
+        <div id="navMenu" class="nav-menu">
+          <div class="tabs" role="tablist" aria-label="Abas do site">
+            <button class="tab-btn" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" tabindex="0" data-tab="home">Home</button>
+            <button class="tab-btn" role="tab" id="tab-planos" aria-controls="panel-planos" aria-selected="false" tabindex="-1" data-tab="planos" hidden>Planos</button>
+            <button class="tab-btn" role="tab" id="tab-ferramentas" aria-controls="panel-ferramentas" aria-selected="false" tabindex="-1" data-tab="ferramentas" hidden>Ferramentas</button>
+            <button class="tab-btn" role="tab" id="tab-perfil" aria-controls="panel-perfil" aria-selected="false" tabindex="-1" data-tab="perfil" hidden>Perfil</button>
+          </div>
+
+          <div class="auth-actions">
+            <button class="btn btn-ghost btn-sm" type="button" id="openLogin">Login</button>
+            <button class="btn btn-primary btn-sm" type="button" id="openRegister">Criar conta</button>
+            <span class="user-chip" id="userChip" hidden>
+              <span class="user-avatar" id="userAvatar" aria-hidden="true">?</span>
+              <span class="user-name" id="userName"></span>
+            </span>
+            <button class="btn btn-ghost btn-sm" type="button" id="logoutButton" hidden>Sair</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <!-- ============ TAB: HOME ============ -->
+    <section id="panel-home" class="tabpanel" role="tabpanel" aria-labelledby="tab-home" data-tabpanel="home">
+
+      <section id="home-hero" class="hero" data-section>
+        <div class="container hero-inner">
+          <div class="hero-copy" data-reveal data-delay="0">
+            <p class="kicker"><span class="kicker-dot" aria-hidden="true"></span>ProLab // Sistema de performance</p>
+
+            <h1 class="hero-title">
+              Constrói performance com <span class="accent-text">método</span>,<br />não com sorte.
+            </h1>
+
+            <p class="hero-subtitle guest-only">
+              Organiza objetivos, planos e ferramentas num só lugar e mede a tua evolução com clareza.
+              Entra ou cria conta para começar.
+            </p>
+
+            <div class="hero-actions guest-only">
+              <button class="btn btn-primary btn-lg" type="button" data-open-register>
+                Criar conta grátis
+              </button>
+              <button class="btn btn-ghost btn-lg" type="button" data-open-login>
+                Fazer login
+              </button>
+            </div>
+
+            <p class="hero-subtitle auth-only">
+              Escolhe um objetivo, ajusta o nível do plano e acompanha a tua evolução com as ferramentas certas —
+              semana após semana.
+            </p>
+
+            <div class="hero-actions auth-only">
+              <button class="btn btn-primary btn-lg" type="button" data-open-tab="planos">Ver o meu plano</button>
+              <button class="btn btn-ghost btn-lg" type="button" data-open-tab="ferramentas">Abrir ferramentas</button>
+            </div>
+
+            <div class="hero-metrics" data-reveal data-delay="140">
+              <div class="metric">
+                <span class="metric-value">4</span>
+                <span class="metric-label">Objetivos</span>
+              </div>
+              <div class="metric-divider" aria-hidden="true"></div>
+              <div class="metric">
+                <span class="metric-value">3</span>
+                <span class="metric-label">Níveis</span>
+              </div>
+              <div class="metric-divider" aria-hidden="true"></div>
+              <div class="metric">
+                <span class="metric-value">7</span>
+                <span class="metric-label">Dias planeados</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual 3D: núcleo orbital + chips flutuantes -->
+          <div class="hero-visual" data-reveal data-delay="120" aria-hidden="true">
+            <div class="orbit-scene" id="orbitScene">
+              <div class="orbit-core">
+                <img src="img/logo3-transparente.webp" alt="" width="118" height="118" loading="eager" decoding="async" />
+              </div>
+              <div class="orbit-ring ring-a"></div>
+              <div class="orbit-ring ring-b"></div>
+              <div class="orbit-ring ring-c"></div>
+
+              <div class="float-chip chip-a" data-parallax="18">
+                <span class="chip-label">IMC</span>
+                <span class="chip-value">23.7</span>
+              </div>
+              <div class="float-chip chip-b" data-parallax="30">
+                <span class="chip-label">Sessões/semana</span>
+                <span class="chip-value">4</span>
+              </div>
+              <div class="float-chip chip-c" data-parallax="24">
+                <span class="chip-label">Progressão</span>
+                <span class="chip-value chip-up">▲ consistente</span>
+              </div>
+            </div>
+
+            <p class="scene-readout">Monitor de carga · ciclo 06—12 semanas</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="home-features" class="section" data-section>
+        <div class="container">
+          <div class="feature-strip" data-reveal data-delay="0">
+            <article class="feature-item">
+              <span class="feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.7"/></svg>
+              </span>
+              <h3>Método</h3>
+              <p>Planos estruturados por objetivo e nível, com rotina semanal clara.</p>
+            </article>
+            <article class="feature-item">
+              <span class="feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 19V10M10 19V5M16 19v-6M21 19H3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              </span>
+              <h3>Métricas</h3>
+              <p>IMC, histórico de medidas e evolução guardados na tua conta.</p>
+            </article>
+            <article class="feature-item">
+              <span class="feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <h3>Consistência</h3>
+              <p>Checklist semanal e temporizador HIIT para cumprir o plano.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="home-objectivos" class="section" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="01">Objetivos</p>
+            <h2>Escolhe o teu objetivo</h2>
+            <p class="section-subtitle">
+              A seleção atualiza o plano recomendado na aba <strong>Planos</strong> e fica guardada na tua conta.
+            </p>
+          </header>
+
+          <div id="objectiveGrid" class="objective-grid" role="radiogroup" aria-label="Objetivo de treino" data-reveal data-delay="80">
+            <!-- Cards renderizados a partir de GET /api/plans -->
+            <p class="loading-note" id="objectivesLoading">A carregar objetivos…</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============ TAB: PLANOS ============ -->
+    <section id="panel-planos" class="tabpanel" role="tabpanel" aria-labelledby="tab-planos" data-tabpanel="planos" hidden>
+      <section class="section section-top" id="planos-plano" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="01">Planos</p>
+            <h2>Plano recomendado</h2>
+            <p class="section-subtitle">
+              Escolhe o nível e vê a rotina semanal. O objetivo vem da aba <strong>Home</strong>.
+            </p>
+          </header>
+
+          <div class="plan-controls" data-reveal data-delay="80">
+            <div class="segmented" role="radiogroup" aria-label="Nível do plano" id="levelGroup">
+              <button class="seg-btn" type="button" role="radio" aria-checked="true" tabindex="0" data-level="iniciante">Iniciante</button>
+              <button class="seg-btn" type="button" role="radio" aria-checked="false" tabindex="-1" data-level="intermedio">Intermédio</button>
+              <button class="seg-btn" type="button" role="radio" aria-checked="false" tabindex="-1" data-level="avancado">Avançado</button>
+            </div>
+
+            <button class="btn btn-ghost" type="button" data-open-tab="home" data-scroll-to="#home-objectivos">
+              Alterar objetivo
+            </button>
+          </div>
+
+          <article id="planCard" class="plan-card glass-card" aria-live="polite" data-reveal data-delay="140">
+            <div class="plan-empty">
+              <p class="plan-empty-title">Ainda não escolheste um objetivo.</p>
+              <p class="plan-empty-text">Vai à aba <strong>Home</strong>, seleciona um objetivo e volta aqui.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="planos-rotina" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="02">Rotina</p>
+            <h2>Rotina semanal</h2>
+            <p class="section-subtitle">Uma estrutura simples e consistente. Ajusta cargas/ritmo conforme o nível.</p>
+          </header>
+
+          <div class="table-wrap glass-card" data-reveal data-delay="80">
+            <table class="routine-table" aria-label="Tabela de rotina semanal">
+              <thead>
+                <tr>
+                  <th scope="col">Dia</th>
+                  <th scope="col">Sessão</th>
+                </tr>
+              </thead>
+              <tbody id="routineBody">
+                <tr><td>—</td><td>Seleciona um objetivo para gerar a rotina.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="export-actions" data-reveal data-delay="140">
+            <button id="printPlan" class="btn btn-primary" type="button">Imprimir / Exportar PDF</button>
+            <p class="muted">No diálogo de impressão, escolhe “Guardar como PDF”.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============ TAB: FERRAMENTAS ============ -->
+    <section id="panel-ferramentas" class="tabpanel" role="tabpanel" aria-labelledby="tab-ferramentas" data-tabpanel="ferramentas" hidden>
+      <section class="section section-top" id="tools-imc" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="01">IMC</p>
+            <h2>Calculadora de IMC</h2>
+            <p class="section-subtitle">Aceita vírgula ou ponto. Preenchida automaticamente com os dados do teu perfil.</p>
+          </header>
+
+          <div class="tools-grid">
+            <article class="tool-card glass-card" data-reveal data-delay="80">
+              <form id="imcForm" class="form" novalidate>
+                <div class="field">
+                  <label for="imcWeight">Peso (kg)</label>
+                  <input id="imcWeight" name="peso" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 72,5" />
+                </div>
+
+                <div class="field">
+                  <label for="imcHeight">Altura (m)</label>
+                  <input id="imcHeight" name="altura" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 1,75" />
+                </div>
+
+                <button class="btn btn-primary btn-full" type="submit">Calcular</button>
+                <p id="imcResult" class="result" role="status" aria-live="polite" aria-atomic="true"></p>
+              </form>
+            </article>
+
+            <article class="tool-card glass-card tip-card" data-reveal data-delay="140">
+              <h3>Nota rápida</h3>
+              <p class="muted">
+                O IMC é um indicador geral e não distingue massa muscular de gordura.
+                Usa como referência, não como diagnóstico.
+              </p>
+              <button class="btn btn-ghost" type="button" data-open-tab="perfil">Guardar dados no Perfil</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="tools-hiit" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="02">HIIT</p>
+            <h2>Temporizador HIIT</h2>
+            <p class="section-subtitle">Ciclo de 30s em loop com Start/Pausa/Reset.</p>
+          </header>
+
+          <article class="tool-card glass-card timer-card" data-reveal data-delay="80">
+            <div class="timer">
+              <p id="timerPhase" class="timer-phase">Ciclo (30s)</p>
+
+              <div id="timerRing" class="timer-ring" role="progressbar" aria-label="Tempo restante" aria-valuemin="0" aria-valuemax="30" aria-valuenow="30">
+                <svg class="timer-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="ringGradient" x1="0" y1="1" x2="1" y2="0">
+                      <stop offset="0" stop-color="#CBFB45"/>
+                      <stop offset="1" stop-color="#9FD42E"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="timer-track" cx="60" cy="60" r="52"></circle>
+                  <circle id="timerProgress" class="timer-progress" cx="60" cy="60" r="52"></circle>
+                </svg>
+
+                <div class="timer-center">
+                  <span id="timerValue" class="timer-value">30</span>
+                  <span class="timer-unit">s</span>
+                </div>
+              </div>
+
+              <div class="timer-actions">
+                <button id="timerStart" class="btn btn-primary" type="button" aria-pressed="false">Iniciar</button>
+                <button id="timerReset" class="btn btn-ghost" type="button">Reset</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="tools-checklist" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="03">Checklist</p>
+            <h2>Checklist semanal</h2>
+            <p class="section-subtitle">Marca treinos concluídos. Sincronizado com a tua conta, semana a semana.</p>
+          </header>
+
+          <article class="tool-card glass-card" data-reveal data-delay="80">
+            <div class="checklist-head">
+              <div>
+                <h3 class="h3">Semana</h3>
+                <p class="muted" id="weekLabel">—</p>
+              </div>
+              <button id="resetChecklist" class="btn btn-ghost" type="button">Repor semana</button>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar" id="checklistBar" style="width: 0%"></div>
+            </div>
+            <p class="muted" id="checklistMeta">0/7 concluídos</p>
+
+            <div class="checklist" id="checklist"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="tools-quiz" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="04">Quiz</p>
+            <h2>Quiz rápido</h2>
+            <p class="section-subtitle">3 perguntas com feedback imediato.</p>
+          </header>
+
+          <article class="tool-card glass-card" data-reveal data-delay="80">
+            <div class="quiz-head">
+              <p class="muted">Pontuação: <strong id="quizScore">0</strong>/3</p>
+              <button id="resetQuiz" class="btn btn-ghost" type="button">Reiniciar</button>
+            </div>
+
+            <form id="quizForm" class="quiz" novalidate>
+              <fieldset class="quiz-q" data-q="1" data-answer="b">
+                <legend>1) Para hipertrofia, o mais importante é…</legend>
+                <label class="opt"><input type="radio" name="q1" value="a" /><span>Treinar só cardio</span></label>
+                <label class="opt"><input type="radio" name="q1" value="b" /><span>Progressão + volume consistente</span></label>
+                <label class="opt"><input type="radio" name="q1" value="c" /><span>Cortar totalmente hidratos</span></label>
+                <p class="feedback" aria-live="polite"></p>
+              </fieldset>
+
+              <fieldset class="quiz-q" data-q="2" data-answer="c">
+                <legend>2) “Prefers-reduced-motion” serve para…</legend>
+                <label class="opt"><input type="radio" name="q2" value="a" /><span>Aumentar FPS</span></label>
+                <label class="opt"><input type="radio" name="q2" value="b" /><span>Guardar dados no browser</span></label>
+                <label class="opt"><input type="radio" name="q2" value="c" /><span>Reduzir animações para utilizadores sensíveis a movimento</span></label>
+                <p class="feedback" aria-live="polite"></p>
+              </fieldset>
+
+              <fieldset class="quiz-q" data-q="3" data-answer="a">
+                <legend>3) Para calcular IMC precisamos de…</legend>
+                <label class="opt"><input type="radio" name="q3" value="a" /><span>Peso e altura</span></label>
+                <label class="opt"><input type="radio" name="q3" value="b" /><span>Idade e frequência cardíaca</span></label>
+                <label class="opt"><input type="radio" name="q3" value="c" /><span>Passos diários</span></label>
+                <p class="feedback" aria-live="polite"></p>
+              </fieldset>
+            </form>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============ TAB: PERFIL ============ -->
+    <section id="panel-perfil" class="tabpanel" role="tabpanel" aria-labelledby="tab-perfil" data-tabpanel="perfil" hidden>
+      <section class="section section-top" id="perfil-dados" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="01">Perfil</p>
+            <h2>Os teus dados</h2>
+            <p class="section-subtitle">Guardados na tua conta — disponíveis em qualquer dispositivo.</p>
+          </header>
+
+          <div class="tools-grid">
+            <article class="tool-card glass-card" data-reveal data-delay="80">
+              <form id="profileForm" class="form" novalidate>
+                <div class="field">
+                  <label for="profileName">Nome</label>
+                  <input id="profileName" name="name" type="text" autocomplete="name" placeholder="Ex.: João" />
+                </div>
+
+                <div class="field">
+                  <label for="profileAge">Idade</label>
+                  <input id="profileAge" name="age" type="number" inputmode="numeric" min="1" max="120" placeholder="Ex.: 24" />
+                </div>
+
+                <div class="field-row">
+                  <div class="field">
+                    <label for="profileWeight">Peso (kg)</label>
+                    <input id="profileWeight" name="weight_kg" type="text" inputmode="decimal" placeholder="Ex.: 72,5" />
+                  </div>
+
+                  <div class="field">
+                    <label for="profileHeight">Altura (m)</label>
+                    <input id="profileHeight" name="height_m" type="text" inputmode="decimal" placeholder="Ex.: 1,75" />
+                  </div>
+                </div>
+
+                <button class="btn btn-primary btn-full" type="submit">Guardar perfil</button>
+                <p class="muted" id="profileMsg" role="status" aria-live="polite"></p>
+              </form>
+            </article>
+
+            <article class="tool-card glass-card" data-reveal data-delay="140">
+              <h3>Atalhos</h3>
+              <p class="muted">Cada gravação com peso alimenta o teu histórico de evolução, em baixo.</p>
+              <div class="stack-buttons">
+                <button class="btn btn-ghost" type="button" data-open-tab="ferramentas" data-scroll-to="#tools-imc">Ir para IMC</button>
+                <button class="btn btn-ghost" type="button" data-open-tab="planos">Ver plano</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="perfil-stats" data-section>
+        <div class="container">
+          <header class="section-header" data-reveal data-delay="0">
+            <p class="section-kicker" data-index="02">Estatísticas</p>
+            <h2>Resumo e evolução</h2>
+            <p class="section-subtitle">IMC calculado a partir do Perfil + objetivo e nível atuais.</p>
+          </header>
+
+          <div class="stats-grid" data-reveal data-delay="80">
+            <div class="stat-card glass-card">
+              <p class="stat-label">IMC</p>
+              <p class="stat-value" id="statIMC">—</p>
+              <p class="muted" id="statIMCText">—</p>
+            </div>
+
+            <div class="stat-card glass-card">
+              <p class="stat-label">Objetivo</p>
+              <p class="stat-value" id="statObjective">—</p>
+              <p class="muted">Selecionado na aba Home</p>
+            </div>
+
+            <div class="stat-card glass-card">
+              <p class="stat-label">Nível do plano</p>
+              <p class="stat-value" id="statLevel">—</p>
+              <p class="muted">Definido na aba Planos</p>
+            </div>
+          </div>
+
+          <article class="glass-card spark-card" data-reveal data-delay="140">
+            <div class="spark-head">
+              <div>
+                <h3 class="h3">Evolução do peso</h3>
+                <p class="muted">Histórico de medidas guardado no servidor.</p>
+              </div>
+              <p class="spark-last muted" id="sparkLast"></p>
+            </div>
+            <div class="spark-wrap" id="sparkWrap">
+              <p class="muted" id="sparkEmpty">Guarda o perfil com peso para começares o histórico.</p>
+              <svg id="sparkline" class="sparkline" viewBox="0 0 600 160" preserveAspectRatio="none" hidden aria-label="Gráfico de evolução do peso"></svg>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="brand" href="#home" aria-label="ProLab Performance">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 20V13M9.5 20V8M15 20v-9M20.5 20V4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-text">ProLab <span>Performance</span></span>
+      </a>
+      <p class="footer-note">Treino estruturado, métricas honestas e progressão que se mede semana a semana.</p>
+      <p class="footer-status" id="apiStatus">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="apiStatusText">A verificar API…</span>
+      </p>
+      <p class="footer-copy">© 2026 ProLab Performance</p>
+    </div>
+  </footer>
+
+  <button id="topBtn" class="to-top" type="button" aria-label="Voltar ao topo">↑</button>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <dialog id="loginDialog" class="auth-dialog">
+    <form id="loginForm" class="form" novalidate>
+      <h2>Login</h2>
+      <p class="muted dialog-sub">Bem-vindo de volta. Os teus dados estão à tua espera.</p>
+
+      <div class="field">
+        <label for="loginEmail">E-mail</label>
+        <input id="loginEmail" name="email" type="email" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">Palavra-passe</label>
+        <input id="loginPassword" name="password" type="password" autocomplete="current-password" required />
+      </div>
+
+      <button class="btn btn-primary btn-full" type="submit">Entrar</button>
+      <button class="btn btn-ghost btn-full" type="button" data-close-dialog>Cancelar</button>
+
+      <div class="demo-hint">
+        <p class="demo-title">Conta de teste</p>
+        <p class="demo-creds">demo@prolab.dev · demo1234</p>
+        <button class="btn btn-ghost btn-sm" type="button" id="fillDemo">Entrar com a conta demo</button>
+      </div>
+
+      <p id="loginMsg" class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <dialog id="registerDialog" class="auth-dialog">
+    <form id="registerForm" class="form" novalidate>
+      <h2>Criar conta</h2>
+      <p class="muted dialog-sub">Objetivos, planos e evolução guardados em segurança.</p>
+
+      <div class="field">
+        <label for="registerName">Nome</label>
+        <input id="registerName" name="name" type="text" autocomplete="name" minlength="2" required />
+      </div>
+
+      <div class="field">
+        <label for="registerEmail">E-mail</label>
+        <input id="registerEmail" name="email" type="email" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="registerPassword">Palavra-passe</label>
+        <input id="registerPassword" name="password" type="password" autocomplete="new-password" minlength="8" required />
+        <p class="field-hint">Mínimo 8 caracteres.</p>
+      </div>
+
+      <button class="btn btn-primary btn-full" type="submit">Criar conta</button>
+      <button class="btn btn-ghost btn-full" type="button" data-close-dialog>Cancelar</button>
+
+      <p id="registerMsg" class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <noscript>
+    <div class="noscript">Este site precisa de JavaScript para funcionar corretamente.</div>
+  </noscript>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+.git
+.gitignore
+.env
+.env.example
+data/
+README.md
+render.yaml
+server.php
